@@ -42,13 +42,12 @@
   },
   "scripts": {
     "view-refresh": "node server.js ",
-    "prestart": "run-s install-task copy-libs-task grunt-task",
+    "build": "run-s install-task copy-libs-task grunt-task",
     "start": "node server.js",
     "install-task": "npm install",
     "grunt-task": "grunt production",
     "copy-libs-task": "cpx \"node_modules/{angular,angular-*,html5-boilerplate/dist}/**/*\" app/lib -C"
   },
-
   "engines": {
     "node": "14.x"
   }
