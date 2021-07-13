@@ -1,0 +1,177 @@
+<app-side-nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main"></app-side-nav>
+
+<div class="main-content" id="panel">
+    <!-- Topnav -->
+    <app-nav-bar></app-nav-bar>
+    <!-- Header -->
+    <div class="header pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <app-current-state current="vm.title"></app-current-state>
+                <!-- Card stats -->
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <div class="card">
+                    <div class="table table-responsive">
+                        <table class="table table-striped table-advance table-hover user-list"
+                               st-pipe="doPaginate"
+                               st-table="tasks" style="background-color: #fff; !important;">
+                            <!--<table class="table table-striped table-advance table-hover user-list">-->
+                            <thead>
+                            <tr>
+                                <h5 class="card-title text-uppercase text-muted text-center mt-3">My Assigned Tasks</h5>
+                            </tr>
+                            <tr style="color: #3498db">
+                                <th><i class="fa fa-tag"></i> ID</th>
+                                <th>Task Name</th>
+                                <th>Task Reference</th>
+                                <th>Property Name</th>
+                                <th>Property Type</th>
+                                <th>Status</th>
+                                <th>Created On</th>
+                                <th>View More</th>
+                            </tr>
+                            </thead>
+
+                            <tbody ng-if="!isLoading && !loadFailed">
+                                <tr ng-repeat="item in tasks">
+                                    <td>{{item.serial_no}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td class="text-left">{{item.taskReference}}</td>
+                                    <td class="text-left"> {{item.propertyInfo.name}}</td>
+                                    <td class="text-left"> {{item.maintainablesType}}</td>
+                                    <td class="text-left">
+                                         <span class="badge" ng-style="match_status_code(item.status).style">
+                                           {{item.status}}
+                                         </span>
+                                    </td>
+                                    <td class="text-left" ng-bind="item.createdAt| date"></td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#viewMoreModal" ng-click="viewTaskDetails(item)">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                            <tbody ng-if="isLoading">
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+
+                                    <p>Loading...</p>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tbody ng-if="noTasks">
+                            <tr>
+                                <td colspan="8" style="padding: 0;">
+                                    <div class="alert alert-warning fade in text-center" style="margin: 0;">
+                                        <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                        <strong>No Tasks on the platform Yet!</strong> <br>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <td class="text-center" st-pagination="" st-items-by-page="pageSize"
+                                    colspan="{{colspan}}">
+                                </td>
+                            </tr>
+
+                            </tfoot>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="viewMoreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-if="showViewModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary-custom">
+                    <h5 class="modal-title" id="exampleModalLabel">Task Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group">
+                        <div href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                           <div class="row">
+                               <div class="col-4"><span class="text-left">Task Description: </span></div>
+                               <div class="col-8">{{task.description}}</div>
+                           </div>
+                        </div>
+
+                        <div href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row">
+                                <div class="col-4"><span class="text-left">Occupant Associated: </span></div>
+                                <div class="col-8">{{task.occupantInfo[0].firstname || 'No OCCUPANT ASSOCIATED'}} {{task.occupantInfo[0].lastname}}</div>
+                            </div>
+                        </div>
+                        <div href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row">
+                                <div class="col-4"><span class="text-left">Task Status: </span></div>
+                                <div class="col-8">{{task.status}}</div>
+                            </div>
+                        </div>
+
+                        <div href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row" ng-if="!showStatusOptions">
+                                <div class="col-12"> <button type="button" class="btn float-right bg-translucent-secondary" ng-click="changeStatus(task.status)">Change status</button></div>
+                            </div>
+                            <div class="row" ng-if="showStatusOptions">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="gender">Select New Status</label>
+                                        <span class="text-red">*</span>
+                                        <select
+                                                name="gender_category"
+                                                id="gender"
+                                                ng-required="true"
+                                                class="form-control"
+                                                ng-change="checkValueOfCurrentStatus()"
+                                                ng-model="currentStatus.value"
+                                                ng-options="status for status in possibleStatuses">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12" ng-if="showArtisanConfig">
+                                    <file-upload></file-upload>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-if="showStatusOptions" ng-click="saveStatusUpdate(task)">Save Update</button>
+                    <button type="button" class="btn btn-warning" ng-if="showStatusOptions" ng-click="cancelStatusUpdate()">Cancel Update</button>
+                    <button type="button" class="btn btn-danger" ng-click="cancelStatusUpdate()" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

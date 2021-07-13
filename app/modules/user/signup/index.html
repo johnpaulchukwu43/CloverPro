@@ -1,0 +1,310 @@
+<nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img class="my-logo"
+                 src="https://res.cloudinary.com/jworks/image/upload/c_scale,w_1785/v1625610386/CloverPro/white_logo_transparent_background.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
+                aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+            <div class="navbar-collapse-header">
+                <div class="row">
+                    <div class="col-6 collapse-brand">
+                        <a href="#">
+                            <img class="my-logo"
+                                 src="https://res.cloudinary.com/jworks/image/upload/c_scale,w_1785/v1625610386/CloverPro/white_logo_transparent_background.png">
+                        </a>
+                    </div>
+                    <div class="col-6 collapse-close">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse"
+                                data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-link-inner--text">Login</span>
+                    </a>
+                </li>
+            </ul>
+            <hr class="d-lg-none"/>
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-icon" href="#" target="_blank"
+                       data-toggle="tooltip" data-original-title="Like us on Facebook">
+                        <i class="fab fa-facebook-square"></i>
+                        <span class="nav-link-inner--text d-lg-none">Facebook</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip"
+                       data-original-title="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i>
+                        <span class="nav-link-inner--text d-lg-none">Instagram</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-icon" href="#" target="_blank" data-toggle="tooltip"
+                       data-original-title="Follow us on Twitter">
+                        <i class="fab fa-twitter-square"></i>
+                        <span class="nav-link-inner--text d-lg-none">Twitter</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Main content -->
+<div class="main-content">
+    <!-- Header -->
+    <div class="header bg-gradient-primary-custom py-7 py-lg-8 pt-lg-9">
+        <div class="container">
+            <div class="header-body text-center mb-4">
+                <div class="row justify-content-center">
+                    <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+                        <h1 class="text-white">Join us today !</h1>
+                        <p class="text-lead text-white">Create your CloverPro account</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separator separator-bottom separator-skew zindex-100">
+            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </div>
+    <!-- Page content -->
+    <div class="container mt--8 pb-5" ng-if=showSignUpForm>
+        <div class="row justify-content-center" ng-if=!userDetails.isAccountCreated>
+            <div class="col-12">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                            <large> Welcome {{userDetails.firstName}} ! Complete your registration as an
+                                {{userDetails.userType}}
+                            </large>
+                        </div>
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" ng-if="isError">
+                            <span class="alert-icon"><i class="ni ni-dislike-2"></i></span>
+                            <span class="alert-text"><strong>SignUp Failed:</strong> {{errorMessage}}</span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+
+                        <form name="signUpForm" novalidate>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <!--firstname-->
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                            </div>
+                                            <input class="form-control" placeholder="First Name"
+                                                   type="text"
+                                                   name="firstName"
+                                                   id="firstName"
+                                                   ng-model="userDetails.firstName"
+                                                   ng-pattern="/^[a-zA-Z0-9._\s]{2,40}$/"
+                                                   ng-disabled="true"
+                                                   ng-required="true">
+                                            <div ng-if="signUpForm.firstName.$touched && signUpForm.firstName.$invalid"
+                                                 class="invalid-feedback">
+                                                First Name must be between 2 and 50
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--lastname-->
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                            </div>
+                                            <input class="form-control" placeholder="Last Name"
+                                                   type="text"
+                                                   name="lastName"
+                                                   id="lastName"
+                                                   ng-disabled="true"
+                                                   ng-model="userDetails.lastName"
+                                                   ng-pattern="/^[a-zA-Z0-9._\s]{2,40}$/"
+                                                   ng-required="true">
+                                            <div ng-if="signUpForm.lastName.$touched && signUpForm.lastName.$invalid"
+                                                 class="invalid-feedback">
+                                                Last Name must be between 2 and 50
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--phone number-->
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i
+                                                        class="ni ni-mobile-button"></i></span>
+                                            </div>
+                                            <input class="form-control" placeholder="Phone Number"
+                                                   type="number"
+                                                   name="phoneNumber"
+                                                   id="phoneNumber"
+                                                   ng-model="userDetails.phoneNumber"
+                                                   ng-required="true">
+                                            <div ng-if="signUpForm.phoneNumber.$touched && signUpForm.phoneNumber.$invalid"
+                                                 class="invalid-feedback">
+                                                phoneNumber is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12  col-lg-6">
+                                    <!--email-->
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                            </div>
+                                            <input class="form-control" placeholder="Email Address"
+                                                   type="email"
+                                                   name="email"
+                                                   id="email"
+                                                   ng-model="userDetails.recipientEmail"
+                                                   ng-disabled="true"
+                                                   ng-required="true">
+                                            <div ng-if="signUpForm.email.$touched && signUpForm.email.$invalid"
+                                                 class="invalid-feedback">
+                                                Email is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--password-->
+                                    <div class="form-group">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i
+                                                        class="ni ni-lock-circle-open"></i></span>
+                                            </div>
+                                            <input class="form-control"
+                                                   name="password"
+                                                   id="password"
+                                                   placeholder="Password"
+                                                   type="password" ng-model="userDetails.password" ng-required="true">
+                                            <div ng-if="signUpForm.password.$touched && signUpForm.password.$invalid"
+                                                 class="invalid-feedback">
+                                                Invalid Password
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--submit-->
+                                    <div class="form-group float-right">
+                                        <div class="lds-ring" ng-if="isLoading">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                        <button type="button" ng-disabled="signUpForm.$invalid" ng-if="!isLoading"
+                                                class="btn btn-success my-4" ng-click="signUpHandler()">Create Account
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" ng-if=userDetails.isAccountCreated>
+            <div class="col-12">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                            <large> Hey there ! Registration is already completed with this link</large>
+                        </div>
+                        <div class="alert alert-secondary fade show text-center" style="margin: 0;">
+                            <i class="fa fa-6x fa-smile" style="display: block;"></i>
+
+                            <a class="btn btn-success my-4" href="#!/login">Proceed to login page</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--invitation form-->
+    <div class="container mt--8 pb-5" ng-if=!showSignUpForm>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                            <large> Enter your invitation reference:</large>
+                        </div>
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" ng-if="isError">
+                            <span class="alert-icon"><i class="ni ni-dislike-2"></i></span>
+                            <span class="alert-text"><strong>SignUp Failed:</strong> {{errorMessage}}</span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+
+                        <form name="invitationForm" novalidate>
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-12">
+                                    <div class="form-group mb-3">
+                                        <div class="input-group input-group-merge input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                            </div>
+                                            <input class="form-control" placeholder=""
+                                                   type="text"
+                                                   name="invitationReference"
+                                                   id="invitationReference"
+                                                   ng-model="invitationReference.value"
+                                                   ng-pattern="/^[a-zA-Z0-9._\s]{2,40}$/"
+                                                   ng-required="true">
+                                            <div ng-if="invitationForm.invitationReference.$touched && invitationForm.invitationReference.$invalid"
+                                                 class="invalid-feedback">
+                                                Invitation reference must be between 2 and 50
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <div class="form-group float-right">
+                                            <div class="lds-ring" ng-if="isLoading">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                            <button type="button" ng-disabled="invitationForm.$invalid"
+                                                    ng-if="!isLoading" class="btn btn-success my-4"
+                                                    ng-click="getInvitationRequest()">Confirm invitation
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+

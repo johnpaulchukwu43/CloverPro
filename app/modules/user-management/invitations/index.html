@@ -1,0 +1,130 @@
+<app-side-nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main"></app-side-nav>
+
+<div class="main-content" id="panel">
+    <!-- Topnav -->
+    <app-nav-bar></app-nav-bar>
+    <!-- Header -->
+    <div class="header pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <app-current-state current="vm.title"></app-current-state>
+                <!-- Card stats -->
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <form name="UserInvitationForm" novalidate ng-init="initController()">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-wrapper">
+                        <!-- Input groups -->
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header">
+                                <h3 class="mb-0">User Invitation Form</h3>
+                                <p style="font-size:small">Fields marked <span class="text-red">*</span> are required</p>
+                            </div>
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <!--product name-->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="firstName">First Name:</label>
+                                            <span class="text-red">*</span>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                </div>
+                                                <input class="form-control" id="firstName" name="firstName"
+                                                        type="text" ng-model="userInvitationInfo.firstName"
+                                                       ng-required="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="lastName">Last Name:</label>
+                                            <span class="text-red">*</span>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                </div>
+                                                <input class="form-control" id="lastName" name="lastName"
+                                                       type="text" ng-model="userInvitationInfo.lastName"
+                                                       ng-required="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="recipientEmail">Email Address:</label>
+                                            <span class="text-red">*</span>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                </div>
+                                                <input class="form-control" id="recipientEmail" name="recipientEmail"
+                                                       type="email" ng-model="userInvitationInfo.recipientEmail"
+                                                       ng-required="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Artisan type-->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="userType">User Type</label>
+                                            <span class="text-red">*</span>
+                                            <select
+                                                    name="userType"
+                                                    id="userType"
+                                                    ng-required="true"
+                                                    class="form-control"
+                                                    ng-model="userInvitationInfo.userType"
+                                                    ng-options="type for type in userTypes">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Artisan type-->
+
+                                <!--submit-->
+                                <div class="row">
+                                    <div class="col-6"></div>
+                                    <div class="col-6">
+                                        <div class="lds-ring" ng-if="isLoading"><div></div><div></div><div></div><div></div></div>
+                                        <div class="card">
+                                            <button ng-if="!isLoading" class="btn btn-success" ng-click="sendInvites(UserInvitationForm)"
+                                                    ng-disabled="UserInvitationForm.$invalid">
+                                                <!--<span class="btn-inner&#45;&#45;icon"><i class="fa fa-plane"></i></span>-->
+                                                Invite User
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Text editor -->
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+

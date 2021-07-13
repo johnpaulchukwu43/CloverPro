@@ -1,0 +1,627 @@
+<app-side-nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main"></app-side-nav>
+<div class="main-content" id="panel" ng-init="initController()">
+     <!--Topnav -->
+    <app-nav-bar></app-nav-bar>
+
+    <div ng-if="facilityManagerDashboard">
+        <!--Header START-->
+        <div class="header pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <!--<app-current-state current="vm.title"></app-current-state>-->
+
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                    <li class="breadcrumb-item"><a href="!#/"><i class="fas fa-home" style="color: #8898aa;"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page"  style="color: #8898aa;">Dashboard</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-lg-6 col-5 text-right">
+                            <a href="#!/manager/tasks/create" class="btn btn-sm btn-neutral">Create new Task</a>
+                            <a href="#!/manager/properties/buildings/manage" class="btn btn-sm btn-neutral">Manage Assets</a>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-if="!isLoadingArtisanCount">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body &ndash;&gt;-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Occupants</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{occupantCount}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                                <i class="ni ni-active-40"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 10%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Artisans</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{artisanCount}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-pie-35"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 5%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body -->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Assets</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{assetCount}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                                <i class="ni ni-money-coins"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 20%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body &ndash;&gt;-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Completed Tasks</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{completedTasksForFM}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-bar-32"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 50%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-if="isLoadingArtisanCount">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body &ndash;&gt;-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                        <p>Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Header END-->
+        <!--Page content-->
+        <!--<div class="container-fluid mt&#45;&#45;6">-->
+            <!--<div class="row">-->
+                <!--<div class="col-xl-6 col-md-6">-->
+                    <!--<div class="card">-->
+                        <!--&lt;!&ndash; Card header &ndash;&gt;-->
+                        <!--<div class="card-header">-->
+                            <!--&lt;!&ndash; Title &ndash;&gt;-->
+                            <!--<h5 class="h3 mb-0">Latest notifications</h5>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; Card body &ndash;&gt;-->
+                        <!--<div class="card-body">-->
+                            <!--<div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">-->
+                                <!--<div class="timeline-block">-->
+                  <!--<span class="timeline-step badge-success">-->
+                    <!--<i class="ni ni-bell-55"></i>-->
+                  <!--</span>-->
+                                    <!--<div class="timeline-content">-->
+                                        <!--<div class="d-flex justify-content-between pt-1">-->
+                                            <!--<div>-->
+                                                <!--<span class="text-muted text-sm font-weight-bold">Occupant requests</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="text-right">-->
+                                                <!--<small class="text-muted"><i class="fas fa-clock mr-1"></i>Now</small>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<h6 class="text-sm mt-1">Ade just logged a request to fix pipe issue</h6>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="timeline-block">-->
+                  <!--<span class="timeline-step badge-danger">-->
+                    <!--<i class="ni ni-html5"></i>-->
+                  <!--</span>-->
+                                    <!--<div class="timeline-content">-->
+                                        <!--<div class="d-flex justify-content-between pt-1">-->
+                                            <!--<div>-->
+                                                <!--<span class="text-muted text-sm font-weight-bold">Rent Notification</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="text-right">-->
+                                                <!--<small class="text-muted"><i class="fas fa-clock mr-1"></i>1 hrs ago</small>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<h6 class="text-sm mt-1 mb-0">Occupant: Funmi in Building: A, has rent due tomorrow</h6>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="timeline-block">-->
+                  <!--<span class="timeline-step badge-info">-->
+                    <!--<i class="ni ni-like-2"></i>-->
+                  <!--</span>-->
+                                    <!--<div class="timeline-content">-->
+                                        <!--<div class="d-flex justify-content-between pt-1">-->
+                                            <!--<div>-->
+                                                <!--<span class="text-muted text-sm font-weight-bold">Task Management</span>-->
+                                            <!--</div>-->
+                                            <!--<div class="text-right">-->
+                                                <!--<small class="text-muted"><i class="fas fa-clock mr-1"></i>5 hrs ago</small>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<h6 class="text-sm mt-1 mb-0">Artisan: Bayo, just completed Task: Install Electrical Fittings.</h6>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-xl-6  col-md-6">-->
+                    <!--<div class="card">-->
+                        <!--&lt;!&ndash; Card header &ndash;&gt;-->
+                        <!--<div class="card-header">-->
+                            <!--&lt;!&ndash; Title &ndash;&gt;-->
+                            <!--<h5 class="h3 mb-0">Today's Scheduled / Automated Tasks</h5>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; Card body &ndash;&gt;-->
+                        <!--<div class="card-body p-0">-->
+                            <!--&lt;!&ndash; List group &ndash;&gt;-->
+                            <!--<ul class="list-group list-group-flush" data-toggle="checklist">-->
+                                <!--<li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">-->
+                                    <!--<div class="checklist-item checklist-item-success checklist-item-checked">-->
+                                        <!--<div class="checklist-info">-->
+                                            <!--<h5 class="checklist-title mb-0">Assign routine Building Checkup task to Artisan</h5>-->
+                                            <!--<small>10:30 AM</small>-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<div class="custom-control custom-checkbox custom-checkbox-success">-->
+                                                <!--<input class="custom-control-input" id="chk-todo-task-1" type="checkbox" checked="">-->
+                                                <!--<label class="custom-control-label" for="chk-todo-task-1"></label>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                                <!--<li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">-->
+                                    <!--<div class="checklist-item checklist-item-warning">-->
+                                        <!--<div class="checklist-info">-->
+                                            <!--<h5 class="checklist-title mb-0">Create order for plumbering parts</h5>-->
+                                            <!--<small>2:00 PM</small>-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<div class="custom-control custom-checkbox custom-checkbox-warning">-->
+                                                <!--<input class="custom-control-input" id="chk-todo-task-2" type="checkbox">-->
+                                                <!--<label class="custom-control-label" for="chk-todo-task-2"></label>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                                <!--<li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">-->
+                                    <!--<div class="checklist-item checklist-item-info">-->
+                                        <!--<div class="checklist-info">-->
+                                            <!--<h5 class="checklist-title mb-0">Send weekly occupant task review e-mail</h5>-->
+                                            <!--<small>10:30 AM</small>-->
+                                        <!--</div>-->
+                                        <!--<div>-->
+                                            <!--<div class="custom-control custom-checkbox custom-checkbox-info">-->
+                                                <!--<input class="custom-control-input" id="chk-todo-task-3" type="checkbox">-->
+                                                <!--<label class="custom-control-label" for="chk-todo-task-3"></label>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+
+    <div ng-if="artisanDashboard">
+        <!--Header START-->
+        <div class="header pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <!--<app-current-state current="vm.title"></app-current-state>-->
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                    <li class="breadcrumb-item"><a
+                                            href="#"><i
+                                            class="fas fa-home" style="color: #8898aa;"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page" style="color: #8898aa;">
+                                        Artisan Dashboard
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <!--Card stats -->
+                    <div class="row">
+                        <div class="col-xl-4 col-md-4">
+                            <div class="card card-stats">
+                                <!--Card body &ndash;&gt;-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Completed Tasks</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{completedTasksForAR}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                                <i class="ni ni-active-40"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 90%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-4">
+                            <div class="card card-stats">
+                                <!--Card body-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Pending Tasks</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{pendingTasksForAR}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-pie-35"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 0%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-4">
+                            <div class="card card-stats">
+                                <!--Card body-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Completed Tasks Pending Review</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{pendingReviewTasksForAR}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-pie-35"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 0%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Header END-->
+
+        <!--Page content-->
+        <div class="container-fluid mt--6">
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <div class="card">
+                        <div class="table table-responsive">
+                            <table class="table table-striped table-advance table-hover user-list"
+                                   st-pipe="doPaginateTasks"
+                                   st-table="tasks" style="background-color: #fff; !important;">
+                                <!--<table class="table table-striped table-advance table-hover user-list">-->
+                                <thead>
+                                    <tr>
+                                        <h5 class="card-title text-uppercase text-muted text-center mt-3">My Scheduled Tasks</h5>
+                                    </tr>
+                                    <tr style="color: #3498db">
+                                        <th><i class="fa fa-tag"></i> ID</th>
+                                        <th>Task Name</th>
+                                        <th>Task Reference</th>
+                                        <th>Property Name</th>
+                                        <th>Property Type</th>
+                                        <th>Status</th>
+                                        <th>Created On</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody ng-if="!isLoading && !loadFailed">
+                                    <tr ng-repeat="item in tasks" class="text-sm">
+                                        <td>{{item.serial_no}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td class="text-left">{{item.taskReference}}</td>
+                                        <td class="text-left"> {{item.propertyInfo.name}}</td>
+                                        <td class="text-left"> {{item.maintainablesType}}</td>
+                                        <td class="text-left">
+                                             <span class="badge badge-lg" ng-style="match_status_code(item.status).style">
+                                               {{item.status}}
+                                             </span>
+                                        </td>
+                                        <td class="text-left" ng-bind="item.createdAt| date"></td>
+                                    </tr>
+
+                                </tbody>
+
+                                <tbody ng-if="isLoading">
+                                <tr>
+                                    <td colspan="8" class="text-center">
+                                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+
+                                        <p>Loading...</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="noTasks">
+                                <tr>
+                                    <td colspan="8" style="padding: 0;">
+                                        <div class="alert alert-warning fade in text-center" style="margin: 0;">
+                                            <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                            <strong>No Tasks on the platform Yet!</strong> <br>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" st-pagination="" st-items-by-page="pageSize"
+                                            colspan="{{colspan}}">
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="occupantDashboard">
+        <!--oc Header START-->
+        <div class="header pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <!--<app-current-state current="vm.title"></app-current-state>-->
+
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                    <li class="breadcrumb-item"><a
+                                            href="#!/"><i
+                                            class="fas fa-home" style="color: #8898aa;"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page" style="color: #8898aa;">
+                                        Occupant Dashboard
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-lg-6 col-5 text-right">
+                            <a href="#!/occupant/complaints/create"
+                               class="btn btn-sm btn-neutral">Create new Request</a>
+                            <!--<a href="https://demos.creative-tim.com/argon-dashboard-pro/pages/widgets.html#"-->
+                               <!--class="btn btn-sm btn-neutral">Rate Completed Request</a>-->
+                        </div>
+                    </div>
+                    <!--Card stats -->
+                    <div class="row" ng-if="isLoadingRow1ForCustomerDashboard">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body &ndash;&gt;-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                        <p>Loading...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!isLoadingRow1ForCustomerDashboard" class="row">
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body &ndash;&gt;-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Complaints Treated</h5>
+                                            <span class="h2 font-weight-bold mb-0">{{treatedComplaintsForOc}}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                                <i class="ni ni-active-40"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 5%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card card-stats">
+                                <!--Card body-->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Pending Complaints</h5>
+                                            <span class="h2 font-weight-bold mb-0">5</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-pie-35"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {{pendingComplaintsForOc}}</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--oc Header END-->
+
+        <!--oc Page content-->
+        <div class="container-fluid mt--6">
+            <div class="row">
+                <div class="col-xl-12 col-md-12" ng-if="!isLoadingRow2ForCustomerDashboard">
+                    <div class="card">
+                        <div class="table table-responsive">
+                            <table class="table table-striped table-advance table-hover user-list"
+                                   st-pipe="doPaginateComplaints"
+                                   st-table="complaints" style="background-color: #fff; !important;">
+                                <!--<table class="table table-striped table-advance table-hover user-list">-->
+                                <thead>
+                                <tr>
+                                    <h5 class="card-title text-uppercase text-muted text-center mt-3">My Complaints</h5>
+                                </tr>
+                                <tr style="color: #3498db">
+                                    <th><i class="fa fa-tag"></i> ID</th>
+                                    <th>Complaint Name</th>
+                                    <th>Complaint Reference</th>
+                                    <th>Property Name</th>
+                                    <th>Property Type</th>
+                                    <th>Status</th>
+                                    <th>Created On</th>
+                                </tr>
+                                </thead>
+
+                                <tbody ng-if="isLoading">
+                                <tr>
+                                    <td colspan="8" class="text-center">
+                                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+
+                                        <p>Loading...</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="noComplaints">
+                                <tr>
+                                    <td colspan="8" style="padding: 0;">
+                                        <div class="alert alert-warning fade in text-center" style="margin: 0;">
+                                            <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                            <strong>No Complaints yet!</strong> <br>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="!isLoading && !loadFailed">
+                                    <tr ng-repeat="item in complaints" class="text-sm">
+                                    <td>{{item.serial_no}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td class="text-left">{{item.taskReference}}</td>
+                                    <td class="text-left"> {{item.propertyInfo.name}}</td>
+                                    <td class="text-left"> {{item.maintainablesType}}</td>
+                                    <td class="text-left">
+                                             <span class="badge badge-lg" ng-style="match_status_code(item.status).style">
+                                               {{item.status}}
+                                             </span>
+                                    </td>
+                                    <td class="text-left" ng-bind="item.createdAt| date"></td>
+                                </tr>
+                                </tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <td class="text-center" st-pagination="" st-items-by-page="pageSize"
+                                        colspan="{{colspan}}">
+                                    </td>
+                                </tr>
+
+                                </tfoot>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" ng-if="isLoadingRow2ForCustomerDashboard">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="card card-stats">
+                            <!--Card body &ndash;&gt;-->
+                            <div class="card-body">
+                                <div class="row">
+                                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                    <p>Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

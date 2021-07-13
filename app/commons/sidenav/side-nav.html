@@ -1,0 +1,187 @@
+<!-- Sidenav -->
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+        <!-- Brand -->
+        <div class="sidenav-header d-flex align-items-center bg-primary-custom">
+            <a class="navbar-brand" href="dashboard.html">
+                <img class="my-logo" src="https://res.cloudinary.com/jworks/image/upload/c_scale,w_1785/v1625610386/CloverPro/white_logo_transparent_background.png">
+            </a>
+            <div class="ml-auto">
+                <!-- Sidenav toggler -->
+                <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-inner">
+            <!-- Collapse -->
+            <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                <!-- Nav items -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#!/">
+                            <i class="ni ni-shop text-primary"></i>
+                            <span class="nav-link-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item"  roles="[vm.roles.FACILITY_MANAGER]">
+                        <a class="nav-link" href="#product-info-more" target="_self" data-toggle="collapse"
+                           role="button" aria-expanded="false" aria-controls="product-info-more">
+                            <i class="ni ni-shop  text-green"></i>
+                            <span class="nav-link-text">Asset & Space Management</span>
+                        </a>
+                        <div class="collapse" id="product-info-more">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="#!/manager/properties/buildings/manage" class="nav-link" role="button" target="_self"
+                                       aria-expanded="true">Manage Properties</a>
+                                </li>
+                            </ul>
+                            <!--<ul class="nav nav-sm flex-column">-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a href="#!/product/view/my" class="nav-link" role="button" target="_self"-->
+                                       <!--aria-expanded="true">Floors</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<ul class="nav nav-sm flex-column">-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a href="#!/product/view/my" class="nav-link" role="button" target="_self"-->
+                                       <!--aria-expanded="true">Rooms</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<ul class="nav nav-sm flex-column">-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a href="#!/product/view/all" class="nav-link" role="button" target="_self"-->
+                                       <!--aria-expanded="true">Property Items</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+
+                        </div>
+
+                    </li>
+
+                    <!--st Task Management-->
+                    <li class="nav-item"  roles="[vm.roles.FACILITY_MANAGER, vm.roles.ARTISAN]">
+                        <a class="nav-link" href="#tasks" data-toggle="collapse" target="_self" role="button"
+                           aria-expanded="false" aria-controls="tasks">
+                            <i class="fa fa-tasks text-blue"></i>
+                            <span class="nav-link-text">Task Management</span>
+                        </a>
+                        <div class="collapse" id="tasks">
+                            <ul class="nav nav-sm flex-column" roles="[vm.roles.FACILITY_MANAGER]">
+                                <li class="nav-item">
+                                    <a href="#!/manager/tasks/create" class="nav-link">Create Task</a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-sm flex-column" roles="[vm.roles.FACILITY_MANAGER]">
+                                <li class="nav-item">
+                                    <a href="#!/manager/tasks/manage" class="nav-link">Manage Tasks</a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-sm flex-column" roles="[vm.roles.ARTISAN]">
+                                <li class="nav-item">
+                                    <a href="#!/artisan/tasks/manage" class="nav-link">View My Tasks</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!--en Task Management-->
+
+                    <!--st Occupant Complaints-->
+                    <li class="nav-item" roles="[vm.roles.FACILITY_MANAGER,vm.roles.OCCUPANT]">
+                        <a class="nav-link" href="#occupant-complaints" data-toggle="collapse" target="_self" role="button"
+                           aria-expanded="false" aria-controls="occupant-complaints">
+                            <i class="fa fa-bullhorn text-yellow"></i>
+                            <span class="nav-link-text">Occupant Complaints</span>
+                        </a>
+                        <div class="collapse" id="occupant-complaints">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item" roles="[vm.roles.FACILITY_MANAGER]">
+                                    <a href="#!/manager/complaints/manage" class="nav-link">Manage Complaints</a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-sm flex-column" roles="[vm.roles.OCCUPANT]" >
+                                <li class="nav-item">
+                                    <a href="#!/occupant/complaints/create" class="nav-link">Create Complaint</a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-sm flex-column" roles="[vm.roles.OCCUPANT]">
+                                <li class="nav-item">
+                                    <a href="#!/occupant/complaints/view" class="nav-link">View Complaints</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!--<li class="nav-item" roles="[vm.roles.FACILITY_MANAGER]">-->
+                        <!--<a class="nav-link" href="#orders" data-toggle="collapse" target="_self" role="button"-->
+                           <!--aria-expanded="false" aria-controls="orders">-->
+                            <!--<i class="ni ni-delivery-fast text-orange"></i>-->
+                            <!--<span class="nav-link-text">Supply Inventory</span>-->
+                        <!--</a>-->
+                        <!--<div class="collapse" id="orders">-->
+                            <!--<ul class="nav nav-sm flex-column">-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a href="#!/orders/my" class="nav-link">Create Orders</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<ul class="nav nav-sm flex-column">-->
+                                <!--<li class="nav-item">-->
+                                    <!--<a href="#!/orders/all" class="nav-link">View All Orders</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+
+                    <!--</li>-->
+
+                    <li class="nav-item" roles="[vm.roles.FACILITY_MANAGER]">
+                        <a class="nav-link" href="#user-management" data-toggle="collapse" target="_self" role="button"
+                           aria-expanded="false" aria-controls="user-management">
+                            <i class="ni ni-badge text-orange"></i>
+                            <span class="nav-link-text">User Management</span>
+                        </a>
+                        <div class="collapse" id="user-management">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="#!/manager/user-management/invitations" class="nav-link">Create Invitation</a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="#!/manager/user-management/artisans" class="nav-link">View Artisans</a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="#!/manager/user-management/occupants" class="nav-link">View Occupants</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </li>
+
+
+
+                    <!-- Divider -->
+                    <hr class="my-3">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/profile" data-toggle="collapse" target="_self" role="button"
+                           aria-expanded="false" aria-controls="providers">
+                            <i class="ni ni-badge text-blue"></i>
+                            <span class="nav-link-text">My Profile Management</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+</nav>

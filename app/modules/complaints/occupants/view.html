@@ -1,0 +1,185 @@
+<app-side-nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main"></app-side-nav>
+
+<div class="main-content" id="panel">
+    <!-- Topnav -->
+    <app-nav-bar></app-nav-bar>
+    <!-- Header -->
+    <div class="header pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <app-current-state current="vm.title"></app-current-state>
+                <!-- Card stats -->
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+
+        <div class="row">
+            <div class="col-xl-12 col-md-12">
+                <div class="card">
+                    <div class="table table-responsive">
+                        <table class="table table-striped table-advance table-hover user-list"
+                               st-pipe="doPaginate"
+                               st-table="tasks" style="background-color: #fff; !important;">
+                            <!--<table class="table table-striped table-advance table-hover user-list">-->
+                            <thead>
+                            <tr>
+                                <h5 class="card-title text-uppercase text-muted text-center mt-3">Complaints</h5>
+                            </tr>
+                            <tr style="color: #3498db">
+                                <th><i class="fa fa-tag"></i> ID</th>
+                                <th>Complaint Name</th>
+                                <th>Complaint Reference</th>
+                                <th>Property Name</th>
+                                <th>Property Type</th>
+                                <th>Status</th>
+                                <th>Created On</th>
+                                <th>View More</th>
+                                <th>Close Complaint</th>
+                            </tr>
+                            </thead>
+
+                            <tbody ng-if="!isLoading && !loadFailed">
+                                <tr ng-repeat="item in complaints" class="text-sm">
+                                    <td>{{item.serial_no}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td class="text-left">{{item.taskReference}}</td>
+                                    <td class="text-left"> {{item.propertyInfo.name}}</td>
+                                    <td class="text-left"> {{item.maintainablesType}}</td>
+                                    <td class="text-left">
+                                             <span class="badge badge-lg" ng-style="match_status_code(item.status).style">
+                                               {{item.status}}
+                                             </span>
+                                    </td>
+                                    <td class="text-left" ng-bind="item.createdAt| date"></td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#viewMoreModal" ng-click="viewComplaintDetails(item)">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                                                data-target="#disableModal" ng-click="initiateCloseComplaint(item)">
+                                            <i class="fa fa fa-window-close"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody ng-if="isLoading">
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+
+                                    <p>Loading...</p>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tbody ng-if="noComplaints">
+                            <tr>
+                                <td colspan="8" style="padding: 0;">
+                                    <div class="alert alert-warning fade in text-center" style="margin: 0;">
+                                        <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                        <strong>No Complaints yet!</strong> <br>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <td class="text-center" st-pagination="" st-items-by-page="pageSize"
+                                    colspan="{{colspan}}">
+                                </td>
+                            </tr>
+
+                            </tfoot>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="viewMoreModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary-custom">
+                    <h5 class="modal-title" id="exampleModalLabel">Complaint Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header">
+                                <h3 class="mb-0"></h3>
+                            </div>
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <img ng-src="{{complaint.occupantImageUploadUrl}}" alt="..." class="img-thumbnail">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        <div href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row">
+                                <div class="col-4"><span class="text-left">Complaint Description: </span></div>
+                                <div class="col-8">{{complaint.description}}</div>
+                            </div>
+                        </div>
+                        <div href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row">
+                                <div class="col-4"><span class="text-left">Artisan Assigned: </span></div>
+                                <div class="col-8">{{complaint.artisanInfo[0].firstname || 'NOT ASSIGNED YET'}} {{task.artisanInfo[0].lastname}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="cancelStatusUpdate()" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary-custom">
+                    <h6 class="modal-title" id="modal-title-notification">Info!!</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="fa fa-window-close fa-3x"></i>
+                        <h4 class="mt-4">Are you sure you want to close this complaint ?</h4>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeComplaint()">Yes, Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

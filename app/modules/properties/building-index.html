@@ -1,0 +1,455 @@
+<app-side-nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white"
+              id="sidenav-main"></app-side-nav>
+<div class="main-content" id="panel">
+    <!--Topnav -->
+    <app-nav-bar></app-nav-bar>
+    <div class="header pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item" style="color: #8898aa; font-size: 1.5rem"><a
+                                        href="#!/"><i
+                                        class="fas fa-home" style="color: #8898aa;"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page" style="color: #8898aa; font-size: 1.5rem">
+                                    {{titleOfView}} View
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Card stats -->
+            </div>
+        </div>
+    </div>
+    <div>
+        <!--Header START-->
+        <!--Header END-->
+        <!--Page content-->
+        <div class="container-fluid mt--5" ng-if="isBuildingView" ng-init="loadBuildings()">
+            <div ng-if="!isLoading && !loadFailed">
+                <div class="row mb-4" style="flex-direction: row">
+                    <button ng-click="addToBuilding()" class="btn btn-sm btn-secondary"
+                            data-target="#addPropertyModal"
+                            data-toggle="modal"
+                            style="margin-left: 15px;margin-right: 15px"><i class="fa fa-plus"></i></button>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4" ng-repeat="building in buildings">
+                        <div class="card">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <!-- Avatar -->
+                                        <a href="#" class="avatar avatar-xl rounded-circle">
+                                            <img alt="Image placeholder" src="../../assets/building.png">
+                                        </a>
+                                    </div>
+                                    <div class="col ml--2">
+                                        <h4 class="mb-0">
+                                            <a href="#!">{{building.name}}</a>
+                                        </h4>
+                                        <p class="text-sm text-muted mb-0">Date created: {{building.createdAt |
+                                            date}}</p>
+                                        <span class="text-success">●</span>
+                                        <span class="badge" ng-style="match_status_code(building.status).style">
+                                           <small>{{building.status | uppercase}} </small>
+                                         </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                                ng-click="viewFloors(building)">View floors
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="isLoading">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row">
+                                <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="noBuildings">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="alert alert-warning fade in text-center" style="margin: 0;">
+                                    <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                    <strong>No Buildings yet!</strong> <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--floor-->
+        <div class="container-fluid mt--5" ng-if="isFloorView" ng-init="loadFloors()">
+
+            <div ng-if="!isLoading && !loadFailed">
+                <div class="row mb-4" style="flex-direction: row">
+                    <button ng-click="goToBuildings()" class="btn btn-sm btn-secondary"
+                            style=" margin-left: 15px;margin-right: 15px"><i class="fa fa-undo"></i></button>
+                    <button ng-click="addToFloor()" class="btn btn-sm btn-secondary"
+                            data-target="#addPropertyModal"
+                            data-toggle="modal"
+                            style="margin-left: 15px;margin-right: 15px"><i class="fa fa-plus"></i></button>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-4" ng-repeat="floor in floors">
+                        <div class="card">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <!-- Avatar -->
+                                        <a href="#" class="avatar avatar-xl rounded-circle">
+                                            <img alt="Image placeholder" src="../../assets/building.png">
+                                        </a>
+                                    </div>
+                                    <div class="col ml--2">
+                                        <h4 class="mb-0">
+                                            <a href="#!">{{floor.name}}</a>
+                                        </h4>
+                                        <p class="text-sm text-muted mb-0">Date created: {{floor.createdAt | date}}</p>
+                                        <span class="text-success">●</span>
+                                        <span class="badge" ng-style="match_status_code(floor.status).style">
+                                           <small>{{floor.status | uppercase}} </small>
+                                         </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                                ng-click="viewRooms(floor)">View Rooms
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="isLoading">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row">
+                                <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="noFloors">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row" style="display: block;text-align: center;">
+                                <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                <strong>No Floors yet!</strong> <br>
+                                <a ng-click="goToBuildings()" class="btn btn-sm btn-outline-secondary">Go back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--floor-->
+
+        <!--room-->
+        <div class="container-fluid mt--5" ng-if="isRoomView" ng-init="loadRooms()">
+            <div ng-if="!isLoading && !loadFailed">
+                <div class="row mb-4" style="flex-direction: row">
+                    <button ng-click="goToFloors()" class="btn btn-sm btn-secondary"
+                            style=" margin-left: 15px;margin-right: 15px"><i class="fa fa-undo"></i></button>
+                    <button ng-click="addToRoom()" class="btn btn-sm btn-secondary"
+                            data-target="#addPropertyModal"
+                            data-toggle="modal"
+                            style="margin-left: 15px;margin-right: 15px"><i class="fa fa-plus"></i></button>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4" ng-repeat="room in rooms">
+                        <div class="card">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <!-- Avatar -->
+                                        <a href="#" class="avatar avatar-xl rounded-circle">
+                                            <img alt="Image placeholder" src="../../assets/building.png">
+                                        </a>
+                                    </div>
+                                    <div class="col ml--2">
+                                        <h4 class="mb-0">
+                                            <a href="#!">{{room.name}}</a>
+                                        </h4>
+                                        <p class="text-sm text-muted mb-0">Date created: {{room.createdAt | date}}</p>
+                                        <span class="text-success">●</span>
+                                        <span class="badge" ng-style="match_status_code(room.status).style">
+                                           <small>{{room.status | uppercase}} </small>
+                                         </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                                ng-click="viewAssets(room)">View Asset Items
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="isLoading">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row">
+                                <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="noRooms">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row" style="display: block;text-align: center;">
+                                <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                <strong>No Rooms yet!</strong> <br>
+                                <a ng-click="goToFloors()" class="btn btn-sm btn-outline-secondary">Go back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--room-->
+
+        <!--assets-->
+        <div class="container-fluid mt--5" ng-if="isAssetView" ng-init="loadAssets()">
+            <div ng-if="!isLoading && !loadFailed">
+                <div class="row mb-4" style="flex-direction: row">
+                    <button ng-click="goToRooms()" class="btn btn-sm btn-secondary"
+                            style=" margin-left: 15px;margin-right: 15px"><i class="fa fa-undo"></i></button>
+                    <button ng-click="addToAsset()" class="btn btn-sm btn-secondary"
+                            data-target="#addPropertyModal"
+                            data-toggle="modal"
+                            style="margin-left: 15px;margin-right: 15px"><i class="fa fa-plus"></i></button>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-4" ng-repeat="asset in assets">
+                        <div class="card">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <!-- Avatar -->
+                                        <a href="#" class="avatar avatar-xl rounded-circle">
+                                            <img alt="Image placeholder" src="../../assets/building.png">
+                                        </a>
+                                    </div>
+                                    <div class="col ml--2">
+                                        <h4 class="mb-0">
+                                            <a href="#!">{{asset.name}}</a>
+                                        </h4>
+                                        <p class="text-sm text-muted mb-0">Date created: {{asset.createdAt | date}}</p>
+                                        <span class="text-success">●</span>
+                                        <span class="badge" ng-style="match_status_code(asset.status).style">
+                                           <small>{{asset.status | uppercase}} </small>
+                                         </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="isLoading">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row">
+                                <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="noAssets">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row" style="display: block;text-align: center;">
+                                <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                <strong>No Assets yet!</strong> <br>
+                                <a ng-click="goToRooms()" class="btn btn-sm btn-outline-secondary">Go back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--room-->
+    </div>
+
+
+    <div class="modal fade" id="addPropertyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-if="showCreateForm">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form name="CreatePropertyForm" novalidate>
+                    <div class="modal-header bg-primary-custom">
+                        <h6 class="modal-title" id="modal-title-notification">Create {{currentPropertyType}} Form</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="propertyName">{{currentPropertyType}} Name:</label>
+                                    <span class="text-red">*</span>
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        </div>
+                                        <input class="form-control" id="propertyName" name="propertyName"
+                                               type="text"
+                                               ng-required="true"
+                                               ng-pattern="/^[a-zA-Z0-9._\s]{2,30}$/"
+                                               ng-model="propertyInfo.name">
+                                        <div ng-if="CreatePropertyForm.propertyName.$touched && CreatePropertyForm.propertyName.$invalid"
+                                             class="invalid-feedback">
+                                            Name must be between 2 and 30
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="description">{{currentPropertyType}} Description</label>
+                                    <span class="text-red">*</span>
+                                    <textarea class="form-control" id="description" ng-model="propertyInfo.description"
+                                              rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="propertyStatus">{{currentPropertyType}} Status</label>
+                                    <span class="text-red">*</span>
+                                    <select
+                                            name="propertyStatus"
+                                            id="propertyStatus"
+                                            ng-required="true"
+                                            class="form-control"
+                                            ng-model="propertyInfo.status"
+                                            ng-options="x for x in maintainableStatus">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="assetPropertyType === currentPropertyType">
+                            <div class="col-12">
+                                <div class="form-group" >
+                                    <label for="propertyName">{{currentPropertyType}} Identification Number:</label>
+                                    <span class="text-red">*</span>
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                        </div>
+                                        <input class="form-control" id="identificationNumber" name="identificationNumber"
+                                               type="text"
+                                               ng-required="true"
+                                               ng-pattern="/^[a-zA-Z0-9._\s]{2,50}$/"
+                                               ng-model="propertyInfo.identificationNumber">
+                                        <div ng-if="CreatePropertyForm.identificationNumber.$touched && CreatePropertyForm.identificationNumber.$invalid"
+                                             class="invalid-feedback">
+                                            Name must be between 2 and 50
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="assetPropertyType === currentPropertyType">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="propertyStatus">{{currentPropertyType}} Category</label>
+                                    <span class="text-red">*</span>
+                                    <select
+                                            name="assetCategory"
+                                            id="assetCategory"
+                                            ng-required="true"
+                                            class="form-control"
+                                            ng-model="propertyInfo.assetCategory"
+                                            ng-options="x.value as x.name for x in assetCategories">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal"
+                                ng-click="createProperty(CreatePropertyForm)" ng-disabled="CreatePropertyForm.$invalid">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeComplaint()">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

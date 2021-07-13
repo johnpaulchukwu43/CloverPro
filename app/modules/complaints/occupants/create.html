@@ -1,0 +1,240 @@
+<app-side-nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white"
+              id="sidenav-main"></app-side-nav>
+
+<div class="main-content" id="panel">
+    <!-- Topnav -->
+    <app-nav-bar></app-nav-bar>
+    <!-- Header -->
+    <div class="header pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <app-current-state current="vm.title"></app-current-state>
+                <!-- Card stats -->
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+        <div class="row" ng-if="!showCreateForm">
+            <div class="col-8">
+                <h4>Select property category to create Task for:</h4>
+
+                <select
+                        name="selected_category"
+                        ng-required="true"
+                        class="form-control"
+                        ng-model="maintainableType.value"
+                        ng-change="selectMaintainableType()"
+                        ng-options="x for x in maintainableTypes">
+
+                </select>
+            </div>
+        </div>
+
+        <form name="CreateComplaintForm" ng-if="showCreateForm" novalidate ng-init="initController()">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card-wrapper">
+                        <!-- Input groups -->
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header">
+                                <h3 class="mb-0">Occupant Create Form</h3>
+                                <p style="font-size:small">Fields marked <span class="text-red">*</span> are required
+                                </p>
+                            </div>
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <!--occupant name-->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="complaintName">Occupant Name:</label>
+                                            <span class="text-red">*</span>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                </div>
+                                                <input class="form-control" id="occupantName" name="complaintName"
+                                                       type="text"
+                                                       ng-disabled="true"
+                                                       ng-model="occupant.name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--occupant name-->
+                                <!--complaintName-->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="complaintName">Complaint Title:</label>
+                                            <span class="text-red">*</span>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                </div>
+                                                <input class="form-control" id="complaintName" name="complaintName"
+                                                       placeholder="Title .i.e Broken door handle" type="text"
+                                                       ng-model="createComplaintInfo.name"
+                                                       ng-required="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--complaintName-->
+                                <!--Building-->
+                                <div class="row" ng-if="isBuilding || isFloor || isRoom || isAsset">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="building">Building</label>
+                                            <span class="text-red">*</span>
+                                            <select
+                                                    name="building"
+                                                    id="building"
+                                                    ng-required="true"
+                                                    class="form-control"
+                                                    ng-change="onBuildingSelectChange()"
+                                                    ng-model="building._id"
+                                                    ng-options="x._id as x.name for x in buildings">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Building-->
+                                <!--Floor-->
+                                <div class="row" ng-if="(isFloor || isRoom || isAsset) && areBuildingsReady">
+                                    <div class="col-12">
+                                        <div class="form-group" ng-if="!isFloorLoading">
+                                            <label for="floor">Floor</label>
+                                            <span class="text-red">*</span>
+                                            <select
+                                                    name="floor"
+                                                    id="floor"
+                                                    ng-required="true"
+                                                    class="form-control"
+                                                    ng-change="onFloorSelectChange()"
+                                                    ng-model="floor._id"
+                                                    ng-options="x._id as x.name for x in floors">
+                                            </select>
+                                        </div>
+                                        <div class="form-group" ng-if="isFloorLoading">
+                                            <div class="lds-ring">
+                                                <div></div><div></div><div></div><div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Floor-->
+
+                                <!--Room-->
+                                <div class="row" ng-if="(isRoom || isAsset) && areFloorsReady">
+                                    <div class="col-12">
+                                        <div class="form-group" ng-if="!isRoomLoading">
+                                            <label for="gender">Room</label>
+                                            <span class="text-red">*</span>
+                                            <select
+                                                    name="gender_category"
+                                                    id="gender"
+                                                    ng-required="true"
+                                                    class="form-control"
+                                                    ng-change="onRoomSelectChange()"
+                                                    ng-model="room._id"
+                                                    ng-options="x._id as x.name for x in rooms">
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group" ng-if="isRoomLoading">
+                                            <div class="lds-ring">
+                                                <div></div><div></div><div></div><div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Assets-->
+                                <div class="row" ng-if="(isAsset) && areRoomsReady ">
+                                    <div class="col-12">
+                                        <div class="form-group" ng-if="!isAssetLoading">
+                                            <label for="gender">Assets</label>
+                                            <span class="text-red">*</span>
+                                            <select
+                                                    name="assets"
+                                                    id="assets"
+                                                    ng-required="true"
+                                                    class="form-control"
+                                                    ng-model="asset._id"
+                                                    ng-options="x._id as x.name for x in assets">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card-wrapper">
+                        <!-- Tags -->
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header">
+                                <h3 class="mb-0"></h3>
+                            </div>
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <!--description -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="description">Complaint Description</label>
+                                            <span class="text-red">*</span>
+                                            <textarea class="form-control" id="description"
+                                                      ng-model="createComplaintInfo.description" rows="3"
+                                                      ng-required="true"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Task type-->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="taskType">Task Type</label>
+                                            <span class="text-red">*</span>
+                                            <select
+                                                    name="taskType"
+                                                    id="taskType"
+                                                    ng-required="true"
+                                                    class="form-control"
+                                                    ng-model="createComplaintInfo.taskType"
+                                                    ng-options="x for x in taskTypes">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <file-upload></file-upload>
+
+                            </div>
+                        </div>
+                        <!--submit-->
+                        <div class="card">
+                            <button class="btn btn-success" ng-click="logComplaint(CreateComplaintForm)"
+                                    ng-disabled="CreateComplaintForm.$invalid">Log Complaint
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+

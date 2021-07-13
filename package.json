@@ -1,0 +1,55 @@
+{
+  "name": "clover-pro-app",
+  "version": "1.0.0",
+  "description": "A facility management app",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.7.5",
+    "angular-cloudinary": "^1.3.1",
+    "angular-cookies": "^1.7.8",
+    "angular-jwt": "^0.1.10",
+    "angular-loader": "^1.7.5",
+    "angular-route": "^1.7.5",
+    "angular-smart-table": "^2.1.11",
+    "angular-ui-router": "^1.0.22",
+    "axios": "^0.18.0",
+    "body-parser": "latest",
+    "browserify": "^16.2.3",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "grunt-browserify": "^5.3.0",
+    "html5-boilerplate": "0.0.1",
+    "moment": "^2.24.0",
+    "ng-resource": "^1.3.2",
+    "ngstorage": "^0.3.11",
+    "toastr": "^2.1.4"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.7.5",
+    "grunt": "^1.0.3",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "npm-run-all": "^4.1.5",
+    "grunt-karma": "^3.0.1",
+    "cpx": "^1.5.0",
+    "http-server": "^0.11.1",
+    "jasmine-core": "^3.3.0",
+    "http-proxy": "latest"
+  },
+  "scripts": {
+    "view-refresh": "node server.js ",
+    "prestart": "run-s install-task copy-libs-task grunt-task",
+    "start": "node server.js",
+    "install-task": "npm install",
+    "grunt-task": "grunt production",
+    "copy-libs-task": "cpx \"node_modules/{angular,angular-*,html5-boilerplate/dist}/**/*\" app/lib -C"
+  },
+
+  "engines": {
+    "node": "14.x"
+  }
+}

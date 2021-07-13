@@ -1,0 +1,36 @@
+<div class="card">
+    <!-- Card header -->
+    <div class="card-header">
+        <h3 class="mb-0">Upload Images <span class="text-red">*</span></h3>
+
+    </div>
+    <!-- Card body -->
+    <div class="card-body">
+        <!-- Single -->
+        <div class="dropzone dropzone-single mb-3" id="fashion-upload" ng-if="!$root.is_img_uploaded ">
+            <div ng-if="!vm.is_img_uploading">
+                <div class="fallback">
+                    <div class="custom-file">
+
+                        <input type="file" class="custom-file-input" id="fashion-img" >
+                        <label class="custom-file-label" for="fashion-img">Choose file</label>
+                    </div>
+                </div>
+                <button class="btn btn-outline-success mt-3" ng-click="vm.uploadImage()" ng-disabled="!$root.is_img_selected">Upload Image</button>
+            </div>
+            <div class="lds-ring center" ng-if="vm.is_img_uploading"><div></div><div></div><div></div><div></div></div>
+
+        </div>
+        <div ng-if="$root.is_img_selected && !vm.is_img_uploading">
+            <div>
+                Image File Name:{{vm.file_name}}
+            </div>
+            <div class="col-auto" ng-if="$root.is_img_uploaded">
+                <div class="avatar">
+                    <img class="avatar-img" ng-src="{{vm.img_url}}" alt="..." data-dz-thumbnail>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
