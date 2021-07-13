@@ -369,7 +369,7 @@
                                     <tr>
                                         <h5 class="card-title text-uppercase text-muted text-center mt-3">My Scheduled Tasks</h5>
                                     </tr>
-                                    <tr style="color: #3498db">
+                                    <tr ng-if="!noTasks" style="color: #3498db">
                                         <th><i class="fa fa-tag"></i> ID</th>
                                         <th>Task Name</th>
                                         <th>Task Reference</th>
@@ -380,7 +380,7 @@
                                     </tr>
                                 </thead>
 
-                                <tbody ng-if="!isLoading && !loadFailed">
+                                <tbody ng-if="!isLoading && !loadFailed && !noTasks ">
                                     <tr ng-repeat="item in tasks" class="text-sm">
                                         <td>{{item.serial_no}}</td>
                                         <td>{{item.name}}</td>
@@ -407,17 +407,10 @@
                                 </tr>
                                 </tbody>
 
-                                <tbody ng-if="noTasks">
-                                <tr>
-                                    <td colspan="8" style="padding: 0;">
-                                        <div class="alert alert-warning fade in text-center" style="margin: 0;">
-                                            <i class="fa fa-4x fa-database" style="display: block;"></i>
-                                            <strong>No Tasks on the platform Yet!</strong> <br>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-
+                                <div ng-if="noTasks" class="row" style="display: block;text-align: center;">
+                                    <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                    <strong>You have no scheduled tasks.</strong> <br>
+                                </div>
                                 <tfoot>
                                     <tr>
                                         <td class="text-center" st-pagination="" st-items-by-page="pageSize"
@@ -432,6 +425,21 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div class="row" ng-if="noTasks">
+                <div class="col-xl-4">
+                    <div class="card card-stats">
+                        <!--Card body &ndash;&gt;-->
+                        <div class="card-body">
+                            <div class="row" style="display: block;text-align: center;">
+                                <i class="fa fa-4x fa-database" style="display: block;"></i>
+                                <strong>You have no assigned Tasks on the platform Yet!</strong> <br>
+                                <a ng-click="goToFloors()" class="btn btn-sm btn-outline-secondary"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -477,7 +485,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="!isLoadingRow1ForCustomerDashboard" class="row">
+                    <div ng-if="!isLoadingRow1ForCustomerDashboard && !loadFailed" class="row">
                         <div class="col-xl-6 col-md-6">
                             <div class="card card-stats">
                                 <!--Card body &ndash;&gt;-->
@@ -507,7 +515,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">Pending Complaints</h5>
-                                            <span class="h2 font-weight-bold mb-0">5</span>
+                                            <span class="h2 font-weight-bold mb-0">{{pendingComplaintsForOc}}</span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -516,7 +524,7 @@
                                         </div>
                                     </div>
                                     <p class="mt-3 mb-0 text-sm">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {{pendingComplaintsForOc}}</span>
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>0%</span>
                                         <span class="text-nowrap">Since last month</span>
                                     </p>
                                 </div>
@@ -529,7 +537,7 @@
         <!--oc Header END-->
 
         <!--oc Page content-->
-        <div class="container-fluid mt--6">
+        <div class="container-fluid mt--6" >
             <div class="row">
                 <div class="col-xl-12 col-md-12" ng-if="!isLoadingRow2ForCustomerDashboard">
                     <div class="card">
@@ -542,7 +550,7 @@
                                 <tr>
                                     <h5 class="card-title text-uppercase text-muted text-center mt-3">My Complaints</h5>
                                 </tr>
-                                <tr style="color: #3498db">
+                                <tr ng-if="!noComplaints" style="color: #3498db">
                                     <th><i class="fa fa-tag"></i> ID</th>
                                     <th>Complaint Name</th>
                                     <th>Complaint Reference</th>
@@ -563,18 +571,8 @@
                                 </tr>
                                 </tbody>
 
-                                <tbody ng-if="noComplaints">
-                                <tr>
-                                    <td colspan="8" style="padding: 0;">
-                                        <div class="alert alert-warning fade in text-center" style="margin: 0;">
-                                            <i class="fa fa-4x fa-database" style="display: block;"></i>
-                                            <strong>No Complaints yet!</strong> <br>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
 
-                                <tbody ng-if="!isLoading && !loadFailed">
+                                <tbody ng-if="!isLoading && !loadFailed && !noComplaints">
                                     <tr ng-repeat="item in complaints" class="text-sm">
                                     <td>{{item.serial_no}}</td>
                                     <td>{{item.name}}</td>
@@ -589,6 +587,14 @@
                                     <td class="text-left" ng-bind="item.createdAt| date"></td>
                                 </tr>
                                 </tbody>
+
+                                <div ng-if="noComplaints" class="row" style="display: block;text-align: center;">
+                                    <i class="fa fa-4x fa-smile" style="display: block;"></i>
+                                    <div class="mt-1 mb-3"><strong>Looking good here. You have no complaints on the system.</strong> <br></div>
+                                    <a href="#!/occupant/complaints/create" class="btn btn-sm btn-outline-success">Log Complaint</a>
+                                </div>
+
+
 
                                 <tfoot>
                                 <tr>

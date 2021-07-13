@@ -180,7 +180,12 @@ var appDetails = window.app.details;
           var result = response.data;
 
           if (status >= 200 && status <= 300) {
-            $scope.artisanCount = result.data[0].userCount;
+            if(!result.data || result.data.length <=0){
+              $scope.artisanCount = 0;
+            }else{
+              $scope.artisanCount = result.data[0].userCount;
+            }
+
           }else{
             $scope.artisanCount = 0;
           }
@@ -199,9 +204,13 @@ var appDetails = window.app.details;
           var result = response.data;
 
           if (status >= 200 && status <= 300) {
-            $scope.occupantCount = result.data[0].userCount;
+            if(!result.data || result.data.length <=0){
+              $scope.occupantCount = 0;
+            }else{
+              $scope.occupantCount = result.data[0].userCount;
+            }
           }else{
-            $scope.artisanCount = 0;
+            $scope.occupantCount = 0;
           }
 
           $scope.getAssetCount();
@@ -218,9 +227,13 @@ var appDetails = window.app.details;
           var result = response.data;
 
           if (status >= 200 && status <= 300) {
-            $scope.assetCount = result.data[0].itemCount;
+            if(!result.data || result.data.length <=0){
+              $scope.assetCount = 0;
+            }else{
+              $scope.assetCount = result.data[0].itemCount;
+            }
           }else{
-            $scope.artisanCount = 0;
+            $scope.assetCount = 0;
           }
           $scope.getTotalCompletedForFacilityManager();
         });
@@ -239,7 +252,12 @@ var appDetails = window.app.details;
           var result = response.data;
 
           if (status >= 200 && status <= 300) {
-            $scope.completedTasksForFM = result.data[0].taskCount;
+
+            if(!result.data || result.data.length <=0){
+              $scope.completedTasksForFM = 0;
+            }else{
+              $scope.completedTasksForFM = result.data[0].taskCount;
+            }
           }else{
             $scope.completedTasksForFM = 0;
           }
@@ -264,7 +282,7 @@ var appDetails = window.app.details;
           var result = response.data;
 
           if (status >= 200 && status <= 300) {
-            if(result.data.length === 0){
+            if(!result.data || result.data.length === 0){
               console.log("no data for total complete");
             } else{
               $scope.completedTasksForAR = result.data[0].taskCount;
@@ -400,6 +418,7 @@ var appDetails = window.app.details;
           if (status >= 200 && status <= 300) {
             if(result.data.length === 0){
               console.log("no data for pending complete");
+              $scope.pendingComplaintsForOc = 0;
             } else{
               $scope.pendingComplaintsForOc = result.data[0].taskCount;
             }

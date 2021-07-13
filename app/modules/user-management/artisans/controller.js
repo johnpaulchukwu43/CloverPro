@@ -59,17 +59,17 @@ var appDetails = window.app.details;
       $scope.loadUsers(start, number);
     };
 
-    $scope.doCheck = function (users, noUsers, start, number) {
-      if (users.totalCount === 0) {
+    $scope.doCheck = function (usersInfo, noUsers, start, number) {
+      if (usersInfo.total === 0) {
         noUsers = true;
       } else {
         //if there are users
         noUsers = false;
-        $scope.tableState.pagination.numberOfPages = tasks.pageCount;
-        users = normalizeData(users.data, start, number);
+        $scope.tableState.pagination.numberOfPages = usersInfo.pages;
+        usersInfo = normalizeData(usersInfo.docs, start, number);
       }
       return {
-        users,
+        usersInfo,
         noUsers
       }
     };
@@ -83,9 +83,9 @@ var appDetails = window.app.details;
           if ($scope.userInfo !== null) {
             //then no errors
             $scope.loadFailed = false;
-            var tmp_info = $scope.doCheck($scope.userInfo, $scope.noUsers, start, number);
+            var tmp_info = $scope.doCheck($scope.userInfo.data, $scope.noUsers, start, number);
             $scope.noUsers = tmp_info.noUsers;
-            $scope.users = tmp_info.users;
+            $scope.users = tmp_info.usersInfo;
           } else {
             $scope.loadFailed = true;
           }

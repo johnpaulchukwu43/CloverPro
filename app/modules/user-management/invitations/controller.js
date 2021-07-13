@@ -41,6 +41,7 @@
               //$scope.resetFields($scope.fashion_info);
               //clear all prev interaction with fields
               $scope.isLoading = false;
+              $scope.userInvitationInfo = {}
             })
           })
           .catch(err => {

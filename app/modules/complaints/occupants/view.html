@@ -79,17 +79,6 @@
                             </tr>
                             </tbody>
 
-                            <tbody ng-if="noComplaints">
-                            <tr>
-                                <td colspan="8" style="padding: 0;">
-                                    <div class="alert alert-warning fade in text-center" style="margin: 0;">
-                                        <i class="fa fa-4x fa-database" style="display: block;"></i>
-                                        <strong>No Complaints yet!</strong> <br>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-
                             <tfoot>
                             <tr>
                                 <td class="text-center" st-pagination="" st-items-by-page="pageSize"
@@ -105,6 +94,20 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="row" ng-if="noComplaints">
+            <div class="col-xl-4">
+                <div class="card card-stats">
+                    <!--Card body &ndash;&gt;-->
+                    <div class="card-body">
+                        <div class="row" style="display: block;text-align: center;">
+                            <i class="fa fa-4x fa-bed" style="display: block;"></i>
+                            <strong>It's quite peaceful here. No complaints logged yet.</strong> <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

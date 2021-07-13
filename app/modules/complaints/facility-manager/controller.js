@@ -159,11 +159,11 @@ var appDetails = window.app.details;
         }
 
         //
-        if (data.assetInfo.length !== 0) {
+        if (data.assetInfo && data.assetInfo.length !== 0) {
           data.propertyInfo = data.assetInfo[0];
-        } else if (data.buildingInfo.length !== 0) {
+        } else if (data.buildingInfo && data.buildingInfo.length !== 0) {
           data.propertyInfo = data.buildingInfo[0];
-        } else if (data.roomInfo.length !== 0) {
+        } else if (data.roomInfo && data.roomInfo.length !== 0) {
           data.propertyInfo = data.roomInfo[0];
         }
       });
@@ -270,9 +270,16 @@ var appDetails = window.app.details;
           if ($scope.artisanInfo !== null) {
             //then no errors
             $scope.loadFailed = false;
-            var tmp_info = $scope.doCheck($scope.artisanInfo, $scope.noArtisans, start, number);
-            $scope.noArtisans = tmp_info.noTasks;
-            $scope.artisans = tmp_info.tasks;
+
+            if ($scope.artisanInfo.data.total === 0) {
+              $scope.noArtisans = true;
+              logger.error("No registered Artisan found. Please onboard one.");
+            } else {
+              //if there are artisans
+              $scope.noArtisans = false;
+              $scope.tableState.pagination.numberOfPages = $scope.artisanInfo.data.pages;
+              $scope.artisans = normalizeData($scope.artisanInfo.data.docs, start, number);
+            }
             $scope.isArtisanLoading = false;
           } else {
             $scope.loadFailed = true;

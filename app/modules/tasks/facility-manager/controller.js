@@ -57,7 +57,6 @@ var appDetails = window.app.details;
     $scope.createTaskInfo = {};
 
     $scope.buildings = [];
-    $scope.artisans = [];
     $scope.floors = [];
     $scope.rooms = [];
     $scope.assets = [];
@@ -266,6 +265,7 @@ var appDetails = window.app.details;
       }
     };
 
+
     $scope.loadArtisans = function (start, number) {
       $scope.isArtisanLoading = true;
       ArtisanUserService.getArtisans(start, number)
@@ -275,9 +275,16 @@ var appDetails = window.app.details;
           if ($scope.artisanInfo !== null) {
             //then no errors
             $scope.loadFailed = false;
-            var tmp_info = $scope.doCheck($scope.artisanInfo, $scope.noArtisans, start, number);
-            $scope.noArtisans = tmp_info.noTasks;
-            $scope.artisans = tmp_info.tasks;
+
+            if ($scope.artisanInfo.data.total === 0) {
+              $scope.noArtisans = true;
+              logger.error("No registered Artisan found. Please onboard one.");
+            } else {
+              //if there are artisans
+              $scope.noArtisans = false;
+              $scope.tableState.pagination.numberOfPages = $scope.artisanInfo.data.pages;
+              $scope.artisans = normalizeData($scope.artisanInfo.data.docs, start, number);
+            }
             $scope.isArtisanLoading = false;
           } else {
             $scope.loadFailed = true;
