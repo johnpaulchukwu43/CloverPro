@@ -2,7 +2,8 @@ var app = {
 
   endpoints: {
     API_HOST: 'http://localhost:7779',
-    API_URL: 'http://localhost:7779/api/v1',
+    // API_URL: 'http://localhost:7779/api/v1',
+    API_URL: 'https://facility-manager-api.herokuapp.com/api/v1',
     SERVICE_PROVIDER_ENDPOINTS:
       {
         login: '/serviceProvider/login',
