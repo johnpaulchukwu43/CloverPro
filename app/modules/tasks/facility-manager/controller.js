@@ -394,15 +394,12 @@ var appDetails = window.app.details;
     };
 
     $scope.match_status_code = function (status) {
-
-      console.log("got called for found !!"+status);
       switch (status) {
         case appDetails.TASK_STATUS.LOGGED_SUCCESS:
           return {"style": {"background-color": "#b2b7af", "color": "#fff"}};
         case appDetails.TASK_STATUS.RECEIVED_BY_MANAGER:
           return {"style": {"background-color": "#7d3f00", "color": "#fff"}};
         case appDetails.TASK_STATUS.ASSIGNED_TO_ARTISAN:
-          console.log("color found !!");
           return {"style": {"background-color": "#9b5002", "color": "#fff"}};
         case appDetails.TASK_STATUS.RECEIVED_BY_ARTISAN:
           return {"style": {"background-color": "#9b5002", "color": "#fff"}};
@@ -421,8 +418,6 @@ var appDetails = window.app.details;
       PropertyService.getBuildings($rootScope.globals.curentUser.id)
         .then(function (response) {
           let result = exception.handleGetRequestResponse(response, $scope.buildings);
-
-          console.log(JSON.stringify(result));
           if (result == null) {
             $scope.loadFailed = true;
           } else {

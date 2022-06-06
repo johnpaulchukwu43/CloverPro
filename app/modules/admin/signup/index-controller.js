@@ -21,7 +21,6 @@
 
           AuthenticationService.adminSignUpAction($scope.userDetails)
             .then(function (result) {
-              console.log("here in success"+JSON.stringify(result));
               $scope.isLoading = false;
               $scope.isError = false;
               $scope.errorMessage = null;

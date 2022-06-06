@@ -3,7 +3,7 @@
 
   var appInfo = window.app.details;
 
-  console.log("window appinfo guy here: " + JSON.stringify(window.app.details));
+  /*console.log("window appinfo guy here: " + JSON.stringify(window.app.details));*/
 
 // Declare app level module which depends on views, and core components
   angular.module('mainApp', [

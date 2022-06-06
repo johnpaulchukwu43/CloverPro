@@ -74,7 +74,6 @@ var endpoint = window.app.endpoints;
     }
 
     function put(endpoint, data) {
-      console.log($rootScope.globals.curentUser.token);
       var url = apiRoot + endpoint;
       return axiosInstance({
         method: 'PUT',

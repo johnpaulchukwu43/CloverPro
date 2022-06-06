@@ -19,7 +19,6 @@ var appDetails = window.app.details;
   function OccupantComplaintsController($scope, $rootScope, logger, exception, PropertyService,OccupantComplaintService) {
 
     $scope.initController = function () {
-      console.log("here in intit");
       $scope.loadBuildings();
     };
 
